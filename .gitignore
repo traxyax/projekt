@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Properties ###
+**/application-dev.properties
+**/application-pre-prod.properties
+**/application-prod.properties
