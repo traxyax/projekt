@@ -35,6 +35,8 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	compileOnly("org.springframework.data:spring-data-envers")
 }
 
 tasks.withType<Test> {
