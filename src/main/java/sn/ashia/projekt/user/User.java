@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import sn.ashia.projekt.persistance.AbstractEntity;
+import sn.ashia.projekt.project.Project;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -30,6 +31,10 @@ public class User extends AbstractEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<UserRole> roles = new LinkedHashSet<>();
+
+    @ManyToMany(mappedBy = "managers")
+    @ToString.Exclude
+    private Set<Project> projects = new LinkedHashSet<>();
 
     public User(String email, Set<UserRole> roles) {
         this.email = email;
