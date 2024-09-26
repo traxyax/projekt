@@ -39,6 +39,9 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> find(
             @RequestParam(required = false) Set<UserRole> roles
     ) {
+        if (roles == null || roles.isEmpty()) {
+            return ResponseEntity.ok(userService.find());
+        }
         return ResponseEntity.ok(userService.find(roles));
     }
 

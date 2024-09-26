@@ -17,10 +17,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    public List<UserDTO> find() {
+        return userMapper.toDTO(findAll());
+    }
+
     public List<UserDTO> find(Set<UserRole> roles) {
-        if (roles == null || roles.isEmpty()) {
-            return userMapper.toDTO(findAll());
-        }
         return userMapper.toDTO(findByRoles(roles));
     }
 
