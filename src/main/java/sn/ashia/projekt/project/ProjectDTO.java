@@ -14,6 +14,7 @@ public record ProjectDTO(
         @NotNull
         Integer durationMonths,
         String genderMarker,
+        String priorityTheme,
         String mainPartner,
         Double amountFef,
         Double amountCofinancing,
