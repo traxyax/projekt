@@ -15,8 +15,8 @@ public interface ProjectMapper {
     ProjectDTO toDTO(Project entity);
     Project toEntity(ProjectDTO dto);
 
-    Set<ProjectDTO> toDTO(List<Project> entities);
-    Set<Project> toEntity(List<ProjectDTO> dtos);
+    List<ProjectDTO> toDTO(List<Project> entities);
+    List<Project> toEntity(List<ProjectDTO> dtos);
 
     Set<ProjectDTO> toDTO(Set<Project> entities);
     Set<Project> toEntity(Set<ProjectDTO> dtos);
