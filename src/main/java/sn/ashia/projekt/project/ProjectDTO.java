@@ -2,7 +2,7 @@ package sn.ashia.projekt.project;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import sn.ashia.projekt.user.User;
+import sn.ashia.projekt.user.UserDTO;
 
 import java.time.Instant;
 import java.util.Set;
@@ -22,5 +22,5 @@ public record ProjectDTO(
         ProjectStatus status,
         Instant createdDate,
         Instant lastModifiedDate,
-        Set<User> managers
+        Set<UserDTO> managers
 ) { }
