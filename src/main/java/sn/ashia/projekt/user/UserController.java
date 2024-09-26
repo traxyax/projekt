@@ -81,8 +81,9 @@ public class UserController {
             )
     })
     public ResponseEntity<UserDTO> save(@Valid @RequestBody UserDTO userDTO) throws ConflictException {
-        userDTO = userService.save(userDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(userService.save(userDTO));
     }
 
     @PutMapping
@@ -109,7 +110,6 @@ public class UserController {
             )
     })
     public ResponseEntity<UserDTO> update(@Valid @RequestBody UserDTO userDTO) throws EntityNotFoundException, ConflictException {
-        userDTO = userService.update(userDTO);
-        return ResponseEntity.ok(userDTO);
+        return ResponseEntity.ok(userService.update(userDTO));
     }
 }
