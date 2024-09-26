@@ -46,8 +46,7 @@ public class Project extends AbstractEntity {
     private ProjectStatus status = ProjectStatus.NOT_STARTED;
 
     @NotAudited
-    @ManyToMany
-    @ToString.Exclude
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> managers = new LinkedHashSet<>();
 
     public void addManager(User manager) {
