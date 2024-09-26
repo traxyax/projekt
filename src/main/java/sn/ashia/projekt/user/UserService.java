@@ -1,6 +1,5 @@
 package sn.ashia.projekt.user;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
