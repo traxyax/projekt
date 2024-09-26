@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import sn.ashia.projekt.exception.ConflictException;
 import sn.ashia.projekt.exception.EntityNotFoundException;
 
+import java.util.List;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class UserController {
                     content = @Content
             )
     })
-    public ResponseEntity<Set<UserDTO>> find(
+    public ResponseEntity<List<UserDTO>> find(
             @RequestParam(required = false) Set<UserRole> roles
     ) {
         return ResponseEntity.ok(userService.find(roles));

@@ -17,9 +17,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public Set<UserDTO> find(Set<UserRole> roles) {
+    public List<UserDTO> find(Set<UserRole> roles) {
         if (roles == null || roles.isEmpty()) {
-            return userMapper.toDTO(new HashSet<>(findAll()));
+            return userMapper.toDTO(findAll());
         }
         return userMapper.toDTO(findByRoles(roles));
     }
@@ -38,11 +38,11 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Set<User> findByRoles(Set<UserRole> userRoles) {
+    public List<User> findByRoles(Set<UserRole> userRoles) {
         return userRoles.stream()
                 .map(userRepository::findByRolesContaining)
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 
     public void save(User user) throws ConflictException {
