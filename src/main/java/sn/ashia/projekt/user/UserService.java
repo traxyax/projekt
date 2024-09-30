@@ -67,14 +67,14 @@ public class UserService {
         }
     }
 
-    public UserDTO update(UserRequest userRequest) throws EntityNotFoundException, ConflictException, IllegalAccessException {
-        Optional<User> existingUser = userRepository.findById(userRequest.id());
+    public UserDTO update(UserDTO userDTO) throws EntityNotFoundException, ConflictException, IllegalAccessException {
+        Optional<User> existingUser = userRepository.findById(userDTO.id());
         if (existingUser.isEmpty()) {
-            throw new EntityNotFoundException("user with id " + userRequest.id() + " not found");
+            throw new EntityNotFoundException("user with id " + userDTO.id() + " not found");
         }
 
         User user = existingUser.get();
-        patcher.patch(user, userMapper.toEntity(userRequest));
+        patcher.patch(user, userMapper.toEntity(userDTO));
         save(user);
         return userMapper.toDTO(user);
     }

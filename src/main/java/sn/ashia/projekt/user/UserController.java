@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,7 +79,7 @@ public class UserController {
                     content = @Content
             )
     })
-    public ResponseEntity<UserDTO> save(@Valid @RequestBody UserDTO userDTO) throws ConflictException {
+    public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO) throws ConflictException {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.save(userDTO));
@@ -109,7 +108,7 @@ public class UserController {
                     content = @Content
             )
     })
-    public ResponseEntity<UserDTO> update(@Valid @RequestBody UserRequest userRequest) throws EntityNotFoundException, ConflictException, IllegalAccessException {
-        return ResponseEntity.ok(userService.update(userRequest));
+    public ResponseEntity<UserDTO> update(@RequestBody UserDTO userDTO) throws EntityNotFoundException, ConflictException, IllegalAccessException {
+        return ResponseEntity.ok(userService.update(userDTO));
     }
 }
