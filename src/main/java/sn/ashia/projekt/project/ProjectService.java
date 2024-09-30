@@ -32,7 +32,12 @@ public class ProjectService {
         return projectRepository.findByManagersIdOrderByCreatedDateDesc(managerId, pageable);
     }
 
-    public ProjectDTO findById(Long id) throws EntityNotFoundException {
+    public Project findById(Long id) throws EntityNotFoundException {
+        return projectRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("project with id " + id + " not found"));
+    }
+
+    public ProjectDTO findByIdToDTO(Long id) throws EntityNotFoundException {
         return projectRepository.findById(id)
                 .map(projectMapper::toDTO)
                 .orElseThrow(() -> new EntityNotFoundException("project with id " + id + " not found"));
