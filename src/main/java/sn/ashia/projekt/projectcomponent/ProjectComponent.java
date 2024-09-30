@@ -1,9 +1,6 @@
 package sn.ashia.projekt.projectcomponent;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -25,6 +22,12 @@ import java.util.Objects;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Audited
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                name = "project_component_number_project_id_uk",
+                columnNames = {"number", "project_id"
+                })
+})
 public class ProjectComponent extends AbstractEntity {
     @NotNull
     private Integer number;
