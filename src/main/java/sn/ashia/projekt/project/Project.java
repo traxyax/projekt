@@ -15,6 +15,7 @@ import sn.ashia.projekt.projectsetting.ProjectSetting;
 import sn.ashia.projekt.user.User;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -44,7 +45,7 @@ public class Project extends AbstractEntity {
     private String type;
 
     @Enumerated(EnumType.STRING)
-    private ProjectStatus status = ProjectStatus.NOT_STARTED;
+    private ProjectStatus status;
 
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
@@ -52,9 +53,14 @@ public class Project extends AbstractEntity {
 
     @NotAudited
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<User> managers = new LinkedHashSet<>();
+    private Set<User> managers;
+
+    public void setStatus(ProjectStatus status) {
+        this.status = Objects.requireNonNullElse(status, ProjectStatus.NOT_STARTED);
+    }
 
     public void addManager(User manager) {
+        if (managers == null) managers = new LinkedHashSet<>();
         managers.add(manager);
     }
 }
