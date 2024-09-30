@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 @Mapper(
-        componentModel = "spring",
-        collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED
+        componentModel = "spring"
 )
 public interface UserMapper {
     UserDTO toDTO(User entity);
