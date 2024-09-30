@@ -1,6 +1,7 @@
 package sn.ashia.projekt.exception;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -70,6 +71,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         errors.put("status", HttpStatus.BAD_REQUEST.value());
         errors.put("timestamp", LocalDateTime.now());
 
+        return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex, WebRequest request) {
+        Map<String, Object> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(error -> {
+            String errorMessage = error.getMessage();
+            errors.put(error.getPropertyPath().toString(), errorMessage);
+        });
+
+        errors.put("status", HttpStatus.BAD_REQUEST.value());
+        errors.put("timestamp", LocalDateTime.now());
         return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
