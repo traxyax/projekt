@@ -1,6 +1,5 @@
 package sn.ashia.projekt.user;
 
-import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.Set;
 public interface UserMapper {
     UserDTO toDTO(User entity);
     User toEntity(UserDTO dto);
-    User toEntity(UserRequest request);
 
     List<UserDTO> toDTO(List<User> entities);
     List<User> toEntity(List<UserDTO> dtos);
