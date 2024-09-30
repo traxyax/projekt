@@ -42,6 +42,9 @@ public class User extends AbstractEntity {
     }
 
     public String getName() {
+        if (email == null) {
+            return null;
+        }
         String name = email.split("@")[0];
         name = String.join(" ", name.split("\\."));
         name = name.toUpperCase();
