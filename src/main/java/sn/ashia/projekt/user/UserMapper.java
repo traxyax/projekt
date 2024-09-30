@@ -12,6 +12,7 @@ import java.util.Set;
 public interface UserMapper {
     UserDTO toDTO(User entity);
     User toEntity(UserDTO dto);
+    User toEntity(UserRequest request);
 
     List<UserDTO> toDTO(List<User> entities);
     List<User> toEntity(List<UserDTO> dtos);
