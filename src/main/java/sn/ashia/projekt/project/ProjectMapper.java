@@ -1,6 +1,5 @@
 package sn.ashia.projekt.project;
 
-import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.Set;
 
 @Mapper(
         componentModel = "spring",
-        collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
         uses = {ProjectMapper.class}
 )
 public interface ProjectMapper {
