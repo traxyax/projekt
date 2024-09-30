@@ -1,7 +1,5 @@
 package sn.ashia.projekt.project;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import sn.ashia.projekt.user.UserDTO;
 
 import java.time.Instant;
@@ -9,9 +7,7 @@ import java.util.Set;
 
 public record ProjectDTO(
         Long id,
-        @NotBlank
         String title,
-        @NotNull
         Integer durationMonths,
         String genderMarker,
         String priorityTheme,
