@@ -11,6 +11,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import sn.ashia.projekt.persistance.AbstractEntity;
+import sn.ashia.projekt.projectcomponent.ProjectComponent;
 import sn.ashia.projekt.projectrisk.ProjectRisk;
 import sn.ashia.projekt.projectsetting.ProjectSetting;
 import sn.ashia.projekt.user.User;
@@ -60,6 +61,10 @@ public class Project extends AbstractEntity {
     @OneToMany(mappedBy = "project")
     @ToString.Exclude
     private List<ProjectRisk> risks;
+
+    @OneToMany(mappedBy = "project")
+    @ToString.Exclude
+    private List<ProjectComponent> components;
 
     public void setStatus(ProjectStatus status) {
         this.status = Objects.requireNonNullElse(status, ProjectStatus.NOT_STARTED);
