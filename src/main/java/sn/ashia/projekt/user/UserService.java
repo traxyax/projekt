@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import sn.ashia.projekt.exception.ConflictException;
 import sn.ashia.projekt.exception.EntityNotFoundException;
+import sn.ashia.projekt.patcher.Patcher;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final Patcher<User> patcher;
 
     public List<UserDTO> find() {
         return userMapper.toDTO(findAll());
@@ -65,15 +67,14 @@ public class UserService {
         }
     }
 
-    public UserDTO update(UserDTO userDTO) throws EntityNotFoundException, ConflictException {
-        Optional<User> existingUser = userRepository.findById(userDTO.id());
+    public UserDTO update(UserRequest userRequest) throws EntityNotFoundException, ConflictException, IllegalAccessException {
+        Optional<User> existingUser = userRepository.findById(userRequest.id());
         if (existingUser.isEmpty()) {
-            throw new EntityNotFoundException("user with id " + userDTO.id() + " not found");
+            throw new EntityNotFoundException("user with id " + userRequest.id() + " not found");
         }
 
         User user = existingUser.get();
-        user.setEmail(userDTO.email());
-        user.setRoles(userDTO.roles());
+        patcher.patch(user, userMapper.toEntity(userRequest));
         save(user);
         return userMapper.toDTO(user);
     }
