@@ -4,17 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sn.ashia.projekt.exception.EntityNotFoundException;
-import sn.ashia.projekt.user.UserMapper;
+import sn.ashia.projekt.patcher.Patcher;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
-
-    private final UserMapper userMapper;
+    private final Patcher<Project> patcher;
 
     public List<ProjectDTO> find(Pageable pageable) {
         return projectMapper.toDTO(findLatestProjects(pageable));
@@ -48,23 +48,15 @@ public class ProjectService {
         return projectMapper.toDTO(project);
     }
 
-    public ProjectDTO update(ProjectDTO projectDTO) throws EntityNotFoundException {
-        return projectRepository.findById(projectDTO.id())
-                .map(project -> {
-                    project.setTitle(projectDTO.title());
-                    project.setDurationMonths(projectDTO.durationMonths());
-                    project.setGenderMarker(projectDTO.genderMarker());
-                    project.setPriorityTheme(projectDTO.priorityTheme());
-                    project.setMainPartner(projectDTO.mainPartner());
-                    project.setAmountFef(projectDTO.amountFef());
-                    project.setAmountCofinancing(projectDTO.amountCofinancing());
-                    project.setType(projectDTO.type());
-                    project.setStatus(projectDTO.status());
-                    project.setManagers(userMapper.toEntity(projectDTO.managers()));
-                    save(project);
-                    return projectMapper.toDTO(project);
-                })
-                .orElseThrow(() -> new EntityNotFoundException("project with id " + projectDTO.id() + " not found")
-                );
+    public ProjectDTO update(ProjectDTO projectDTO) throws EntityNotFoundException, IllegalAccessException {
+        Optional<Project> existingProject = projectRepository.findById(projectDTO.id());
+        if (existingProject.isEmpty()) {
+            throw new EntityNotFoundException("project with id " + projectDTO.id() + " not found");
+        }
+
+        Project project = existingProject.get();
+        patcher.patch(project, projectMapper.toEntity(projectDTO));
+        save(project);
+        return projectMapper.toDTO(project);
     }
 }

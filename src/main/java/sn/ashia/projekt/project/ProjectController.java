@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
@@ -71,13 +70,13 @@ public class ProjectController {
                     content = @Content
             )
     })
-    public ResponseEntity<ProjectDTO> save(@Valid @RequestBody ProjectDTO projectDTO) {
+    public ResponseEntity<ProjectDTO> save(@RequestBody ProjectDTO projectDTO) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(projectService.save(projectDTO));
     }
 
-    @PutMapping
+    @PatchMapping
     @Operation(summary = "update an project")
     @ApiResponses(value = {
             @ApiResponse(
@@ -95,7 +94,7 @@ public class ProjectController {
                     content = @Content
             )
     })
-    public ResponseEntity<ProjectDTO> update(@Valid @RequestBody ProjectDTO projectDTO) throws EntityNotFoundException {
+    public ResponseEntity<ProjectDTO> update(@RequestBody ProjectDTO projectDTO) throws EntityNotFoundException, IllegalAccessException {
         return ResponseEntity.ok(projectService.update(projectDTO));
     }
 }
