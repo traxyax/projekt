@@ -11,6 +11,7 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import sn.ashia.projekt.persistance.AbstractEntity;
+import sn.ashia.projekt.projectsetting.ProjectSetting;
 import sn.ashia.projekt.user.User;
 
 import java.util.LinkedHashSet;
@@ -44,6 +45,10 @@ public class Project extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private ProjectStatus status = ProjectStatus.NOT_STARTED;
+
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    private ProjectSetting setting;
 
     @NotAudited
     @ManyToMany(fetch = FetchType.EAGER)

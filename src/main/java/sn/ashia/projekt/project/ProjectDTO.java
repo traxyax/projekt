@@ -1,5 +1,6 @@
 package sn.ashia.projekt.project;
 
+import sn.ashia.projekt.projectsetting.ProjectSettingDTO;
 import sn.ashia.projekt.user.UserDTO;
 
 import java.time.Instant;
@@ -18,5 +19,6 @@ public record ProjectDTO(
         ProjectStatus status,
         Instant createdDate,
         Instant lastModifiedDate,
+        ProjectSettingDTO setting,
         Set<UserDTO> managers
 ) { }
