@@ -27,6 +27,11 @@ public class DocumentationConfig {
     }
 
     @Bean
+    public GroupedOpenApi projectRiskOpenApi() {
+        return generateGroupedOpenApi("project-risk", "project-risks");
+    }
+
+    @Bean
     public OpenAPI projektOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("Projekt API")
