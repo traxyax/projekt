@@ -54,7 +54,7 @@ public class ProjectController {
             )
     })
     public ResponseEntity<ProjectDTO> findById(@PathVariable Long id) throws EntityNotFoundException {
-        return ResponseEntity.ok(projectService.findById(id));
+        return ResponseEntity.ok(projectService.findByIdToDTO(id));
     }
 
     @PostMapping
