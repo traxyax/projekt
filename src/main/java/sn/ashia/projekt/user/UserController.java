@@ -86,7 +86,7 @@ public class UserController {
                 .body(userService.save(userDTO));
     }
 
-    @PutMapping
+    @PatchMapping
     @Operation(summary = "update an user")
     @ApiResponses(value = {
             @ApiResponse(
@@ -109,7 +109,7 @@ public class UserController {
                     content = @Content
             )
     })
-    public ResponseEntity<UserDTO> update(@Valid @RequestBody UserDTO userDTO) throws EntityNotFoundException, ConflictException {
-        return ResponseEntity.ok(userService.update(userDTO));
+    public ResponseEntity<UserDTO> update(@Valid @RequestBody UserRequest userRequest) throws EntityNotFoundException, ConflictException, IllegalAccessException {
+        return ResponseEntity.ok(userService.update(userRequest));
     }
 }
