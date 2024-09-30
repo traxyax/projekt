@@ -58,6 +58,7 @@ public class Project extends AbstractEntity {
     private Set<User> managers;
 
     @OneToMany(mappedBy = "project")
+    @ToString.Exclude
     private List<ProjectRisk> risks;
 
     public void setStatus(ProjectStatus status) {
