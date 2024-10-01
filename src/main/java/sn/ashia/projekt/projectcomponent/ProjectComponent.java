@@ -9,10 +9,12 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import sn.ashia.projekt.componentactivity.ComponentActivity;
 import sn.ashia.projekt.enumeration.GlobalStatus;
 import sn.ashia.projekt.persistance.AbstractEntity;
 import sn.ashia.projekt.project.Project;
 
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -41,6 +43,10 @@ public class ProjectComponent extends AbstractEntity {
     @NotNull
     @ManyToOne
     private Project project;
+
+    @OneToMany(mappedBy = "component")
+    @ToString.Exclude
+    private List<ComponentActivity> activities;
 
     public void setStatus(GlobalStatus status) {
         this.status = Objects.requireNonNullElse(status, GlobalStatus.KO);
