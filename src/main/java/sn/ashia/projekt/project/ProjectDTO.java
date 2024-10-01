@@ -4,6 +4,7 @@ import sn.ashia.projekt.projectsetting.ProjectSettingDTO;
 import sn.ashia.projekt.user.UserDTO;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Set;
 
 public record ProjectDTO(
@@ -16,6 +17,8 @@ public record ProjectDTO(
         Double amountFef,
         Double amountCofinancing,
         String type,
+        LocalDate startDate,
+        LocalDate endDate,
         ProjectStatus status,
         Instant createdDate,
         Instant lastModifiedDate,

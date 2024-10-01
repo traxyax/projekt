@@ -16,6 +16,7 @@ import sn.ashia.projekt.projectrisk.ProjectRisk;
 import sn.ashia.projekt.projectsetting.ProjectSetting;
 import sn.ashia.projekt.user.User;
 
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -46,6 +47,10 @@ public class Project extends AbstractEntity {
     private Double amountCofinancing;
 
     private String type;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;
