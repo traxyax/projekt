@@ -32,6 +32,11 @@ public class DocumentationConfig {
     }
 
     @Bean
+    public GroupedOpenApi projectComponentOpenApi() {
+        return generateGroupedOpenApi("project-component", "project-components");
+    }
+
+    @Bean
     public OpenAPI projektOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("Projekt API")
