@@ -28,34 +28,36 @@ public class ProjectRiskService {
     }
 
     public ProjectRiskDTO findByIdToDTO(long id) throws EntityNotFoundException {
-        return projectRiskRepository.findById(id)
-                .map(projectRiskMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException("could not find project risk with id " + id));
+        return projectRiskMapper.toDTO(findById(id));
     }
 
-    public void save(ProjectRisk projectRisk, Long projectId) throws EntityNotFoundException {
-        if (projectId != null) {
-            Project project = projectService.findById(projectId);
-            projectRisk.setProject(project);
-        }
+    public void save(ProjectRisk projectRisk) throws EntityNotFoundException {
         projectRiskRepository.save(projectRisk);
     }
 
     public ProjectRiskDTO save(ProjectRiskDTO projectRiskDTO) throws EntityNotFoundException {
         ProjectRisk projectRisk = projectRiskMapper.toEntity(projectRiskDTO);
-        save(projectRisk, projectRiskDTO.projectId());
+        if (projectRiskDTO.projectId() != null) {
+            Project project = projectService.findById(projectRiskDTO.id());
+            projectRisk.setProject(project);
+        }
+        save(projectRisk);
         return projectRiskMapper.toDTO(projectRisk);
     }
 
     public ProjectRiskDTO update(ProjectRiskDTO projectRiskDTO) throws EntityNotFoundException, IllegalAccessException {
         ProjectRisk projectRisk = findById(projectRiskDTO.id());
+        if (projectRiskDTO.projectId() != null) {
+            Project project = projectService.findById(projectRiskDTO.id());
+            projectRisk.setProject(project);
+        }
         patcher.patch(projectRisk, projectRiskMapper.toEntity(projectRiskDTO));
-        save(projectRisk, null);
+        save(projectRisk);
         return projectRiskMapper.toDTO(projectRisk);
     }
 
     public void delete(long id) throws EntityNotFoundException {
-        findById(id);
-        projectRiskRepository.deleteById(id);
+        ProjectRisk projectRisk = findById(id);
+        projectRiskRepository.delete(projectRisk);
     }
 }

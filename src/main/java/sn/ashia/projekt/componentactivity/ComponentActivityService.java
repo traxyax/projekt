@@ -35,12 +35,7 @@ public class ComponentActivityService {
                 .orElseThrow(() -> new EntityNotFoundException("could not find component activity with id " + id));
     }
 
-    public void save(ComponentActivity componentActivity, Long componentId) throws EntityNotFoundException, ConflictException {
-        if (componentId != null) {
-            ProjectComponent projectComponent = projectComponentService.findById(componentId);
-            componentActivity.setComponent(projectComponent);
-        }
-
+    public void save(ComponentActivity componentActivity) throws ConflictException {
         try {
             componentActivityRepository.save(componentActivity);
         } catch (DataIntegrityViolationException ex) {
@@ -48,16 +43,24 @@ public class ComponentActivityService {
         }
     }
 
-    public ComponentActivityDTO save(ComponentActivityDTO componentActivityDTO) throws EntityNotFoundException, ConflictException {
+    public ComponentActivityDTO save(ComponentActivityDTO componentActivityDTO) throws ConflictException, EntityNotFoundException {
         ComponentActivity componentActivity = componentActivityMapper.toEntity(componentActivityDTO);
-        save(componentActivity, componentActivityDTO.componentId());
+        if (componentActivityDTO.componentId() != null) {
+            ProjectComponent projectComponent = projectComponentService.findById(componentActivityDTO.componentId());
+            componentActivity.setComponent(projectComponent);
+        }
+        save(componentActivity);
         return componentActivityMapper.toDTO(componentActivity);
     }
 
     public ComponentActivityDTO update(ComponentActivityDTO componentActivityDTO) throws EntityNotFoundException, IllegalAccessException, ConflictException {
         ComponentActivity componentActivity = findById(componentActivityDTO.id());
+        if (componentActivityDTO.componentId() != null) {
+            ProjectComponent projectComponent = projectComponentService.findById(componentActivityDTO.componentId());
+            componentActivity.setComponent(projectComponent);
+        }
         patcher.patch(componentActivity, componentActivityMapper.toEntity(componentActivityDTO));
-        save(componentActivity, null);
+        save(componentActivity);
         return componentActivityMapper.toDTO(componentActivity);
     }
 

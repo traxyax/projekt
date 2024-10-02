@@ -58,7 +58,7 @@ public class UserController {
             )
     })
     public ResponseEntity<UserDTO> findById(@PathVariable Long id) throws EntityNotFoundException {
-        return ResponseEntity.ok(userService.findById(id));
+        return ResponseEntity.ok(userService.findByIdToDTO(id));
     }
 
     @PostMapping

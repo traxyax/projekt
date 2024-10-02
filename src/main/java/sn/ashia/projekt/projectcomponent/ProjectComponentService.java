@@ -30,17 +30,10 @@ public class ProjectComponentService {
     }
 
     public ProjectComponentDTO findByIdToDTO(long id) throws EntityNotFoundException {
-        return projectComponentRepository.findById(id)
-                .map(projectComponentMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException("could not find project component with id " + id));
+        return projectComponentMapper.toDTO(findById(id));
     }
 
-    public void save(ProjectComponent projectComponent, Long projectId) throws EntityNotFoundException, ConflictException {
-        if (projectId != null) {
-            Project project = projectService.findById(projectId);
-            projectComponent.setProject(project);
-        }
-
+    public void save(ProjectComponent projectComponent) throws ConflictException {
         try {
             projectComponentRepository.save(projectComponent);
         } catch (DataIntegrityViolationException ex) {
@@ -50,19 +43,27 @@ public class ProjectComponentService {
 
     public ProjectComponentDTO save(ProjectComponentDTO projectComponentDTO) throws EntityNotFoundException, ConflictException {
         ProjectComponent projectComponent = projectComponentMapper.toEntity(projectComponentDTO);
-        save(projectComponent, projectComponentDTO.projectId());
+        if (projectComponentDTO.projectId() != null) {
+            Project project = projectService.findById(projectComponentDTO.id());
+            projectComponent.setProject(project);
+        }
+        save(projectComponent);
         return projectComponentMapper.toDTO(projectComponent);
     }
 
     public ProjectComponentDTO update(ProjectComponentDTO projectComponentDTO) throws EntityNotFoundException, IllegalAccessException, ConflictException {
         ProjectComponent projectComponent = findById(projectComponentDTO.id());
+        if (projectComponentDTO.projectId() != null) {
+            Project project = projectService.findById(projectComponentDTO.id());
+            projectComponent.setProject(project);
+        }
         patcher.patch(projectComponent, projectComponentMapper.toEntity(projectComponentDTO));
-        save(projectComponent, null);
+        save(projectComponent);
         return projectComponentMapper.toDTO(projectComponent);
     }
 
     public void delete(long id) throws EntityNotFoundException {
-        findById(id);
-        projectComponentRepository.deleteById(id);
+        ProjectComponent projectComponent = findById(id);
+        projectComponentRepository.delete(projectComponent);
     }
 }

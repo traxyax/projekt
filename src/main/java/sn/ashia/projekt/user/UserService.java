@@ -25,10 +25,13 @@ public class UserService {
         return userMapper.toDTO(findByRoles(roles));
     }
 
-    public UserDTO findById(Long id) throws EntityNotFoundException {
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isEmpty()) throw new EntityNotFoundException("user not found");
-        return userMapper.toDTO(existingUser.get());
+    public User findById(long id) throws EntityNotFoundException {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("could not find user with id: " + id));
+    }
+
+    public UserDTO findByIdToDTO(long id) throws EntityNotFoundException {
+        return userMapper.toDTO(findById(id));
     }
 
     public List<User> findAll() {

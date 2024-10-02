@@ -38,6 +38,7 @@ public class ProjectComponent extends AbstractEntity {
     @Column(columnDefinition = "TEXT")
     private String objective;
 
+    @Enumerated(EnumType.STRING)
     private GlobalStatus status;
 
     @NotNull

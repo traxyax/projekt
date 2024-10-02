@@ -7,7 +7,6 @@ import sn.ashia.projekt.exception.EntityNotFoundException;
 import sn.ashia.projekt.patcher.Patcher;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -20,7 +19,7 @@ public class ProjectService {
         return projectMapper.toDTO(findLatestProjects(pageable));
     }
 
-    public List<ProjectDTO> find(Long managerId, Pageable pageable) {
+    public List<ProjectDTO> find(long managerId, Pageable pageable) {
         return projectMapper.toDTO(findLatestProjectsByManagerId(managerId, pageable));
     }
 
@@ -37,10 +36,8 @@ public class ProjectService {
                 .orElseThrow(() -> new EntityNotFoundException("project with id " + id + " not found"));
     }
 
-    public ProjectDTO findByIdToDTO(Long id) throws EntityNotFoundException {
-        return projectRepository.findById(id)
-                .map(projectMapper::toDTO)
-                .orElseThrow(() -> new EntityNotFoundException("project with id " + id + " not found"));
+    public ProjectDTO findByIdToDTO(long id) throws EntityNotFoundException {
+        return projectMapper.toDTO(findById(id));
     }
 
     public void save(Project project) {
@@ -54,12 +51,7 @@ public class ProjectService {
     }
 
     public ProjectDTO update(ProjectDTO projectDTO) throws EntityNotFoundException, IllegalAccessException {
-        Optional<Project> existingProject = projectRepository.findById(projectDTO.id());
-        if (existingProject.isEmpty()) {
-            throw new EntityNotFoundException("project with id " + projectDTO.id() + " not found");
-        }
-
-        Project project = existingProject.get();
+        Project project = findById(projectDTO.id());
         patcher.patch(project, projectMapper.toEntity(projectDTO));
         save(project);
         return projectMapper.toDTO(project);
